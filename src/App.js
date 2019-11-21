@@ -1,26 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { connect, } from 'react-redux'
+import Nav from './components/Nav';
+import Shop from './components/Shop/Shop';
+import Cart from './components/Cart/Cart';
+import { Route, Switch } from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <nav className="teal darken-4">
+          <Nav
+            cart={this.props.cart.length} />
+        </nav>
+
+        <div className="container">
+          <Switch>
+            <Route exact path="/" component={Shop} />
+            <Route path="/cart" component={Cart} />
+          </Switch>
+        </div>
+
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    cart: state.cartReducer.addedItem
+  }
+}
+
+export default connect(mapStateToProps)(App)
